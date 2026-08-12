@@ -1,0 +1,23 @@
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# H2 Database files
+db/
+*.db.mv.db
+*.db.trace.db
+
+# IDE files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
