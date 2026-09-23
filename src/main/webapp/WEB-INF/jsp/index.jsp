@@ -78,7 +78,25 @@
                                     </c:choose>
                                 </div>
                             </div>
-                            <a href="${pageContext.request.contextPath}/product/detail?id=${p.id}" class="btn btn-primary btn-sm">View</a>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <c:if test="${sessionScope.user != null and sessionScope.user.role == 'BUYER'}">
+                                    <c:choose>
+                                        <c:when test="${p.wishlisted}">
+                                            <form action="${pageContext.request.contextPath}/wishlist/remove" method="POST" style="margin: 0;">
+                                                <input type="hidden" name="productId" value="${p.id}">
+                                                <button type="submit" class="btn btn-outline btn-sm" style="color: red; border-color: red;" title="Remove from Wishlist">♥</button>
+                                            </form>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form action="${pageContext.request.contextPath}/wishlist/add" method="POST" style="margin: 0;">
+                                                <input type="hidden" name="productId" value="${p.id}">
+                                                <button type="submit" class="btn btn-outline btn-sm" title="Add to Wishlist">♡</button>
+                                            </form>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:if>
+                                <a href="${pageContext.request.contextPath}/product/detail?id=${p.id}" class="btn btn-primary btn-sm">View</a>
+                            </div>
                         </div>
                     </div>
                 </div>

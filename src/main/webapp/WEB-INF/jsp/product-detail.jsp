@@ -89,23 +89,47 @@
                 <p style="color: var(--text-primary); line-height: 1.7;">${product.description}</p>
             </div>
 
-            <!-- Add to Cart Form -->
-            <c:choose>
-                <c:when test="${product.stock > 0}">
-                    <form action="${pageContext.request.contextPath}/cart/add" method="POST" style="display: flex; gap: 1rem; align-items: center;">
-                        <input type="hidden" name="productId" value="${product.id}">
-                        <div style="width: 100px;">
-                            <input type="number" name="quantity" value="1" min="1" max="${product.stock}" class="form-control" style="text-align: center; font-size: 1.1rem; font-weight: 700;">
-                        </div>
-                        <button type="submit" class="btn btn-accent btn-lg" style="flex: 1;">
-                            Add to Shopping Cart &rarr;
-                        </button>
-                    </form>
-                </c:when>
-                <c:otherwise>
-                    <button class="btn btn-outline btn-lg" disabled style="opacity: 0.5; width: 100%;">Out of Stock</button>
-                </c:otherwise>
-            </c:choose>
+            <!-- Actions: Cart & Wishlist -->
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <c:choose>
+                    <c:when test="${product.stock > 0}">
+                        <form action="${pageContext.request.contextPath}/cart/add" method="POST" style="display: flex; gap: 1rem; align-items: center; margin: 0;">
+                            <input type="hidden" name="productId" value="${product.id}">
+                            <div style="width: 100px;">
+                                <input type="number" name="quantity" value="1" min="1" max="${product.stock}" class="form-control" style="text-align: center; font-size: 1.1rem; font-weight: 700;">
+                            </div>
+                            <button type="submit" class="btn btn-accent btn-lg" style="flex: 1;">
+                                Add to Shopping Cart &rarr;
+                            </button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn btn-outline btn-lg" disabled style="opacity: 0.5; width: 100%;">Out of Stock</button>
+                    </c:otherwise>
+                </c:choose>
+
+                <!-- Wishlist Action -->
+                <c:if test="${sessionScope.user != null and sessionScope.user.role == 'BUYER'}">
+                    <c:choose>
+                        <c:when test="${product.wishlisted}">
+                            <form action="${pageContext.request.contextPath}/wishlist/remove" method="POST" style="margin: 0;">
+                                <input type="hidden" name="productId" value="${product.id}">
+                                <button type="submit" class="btn btn-outline btn-lg" style="width: 100%; color: red; border-color: red;">
+                                    ♥ Remove from Wishlist
+                                </button>
+                            </form>
+                        </c:when>
+                        <c:otherwise>
+                            <form action="${pageContext.request.contextPath}/wishlist/add" method="POST" style="margin: 0;">
+                                <input type="hidden" name="productId" value="${product.id}">
+                                <button type="submit" class="btn btn-outline btn-lg" style="width: 100%;">
+                                    ♡ Add to Wishlist
+                                </button>
+                            </form>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </div>
         </div>
     </div>
 

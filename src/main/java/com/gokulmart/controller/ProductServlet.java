@@ -21,6 +21,7 @@ public class ProductServlet extends HttpServlet {
 
     private final ProductService productService = new ProductService();
     private final ReviewService reviewService = new ReviewService();
+    private final com.gokulmart.service.WishlistService wishlistService = new com.gokulmart.service.WishlistService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,6 +39,17 @@ public class ProductServlet extends HttpServlet {
         String category = req.getParameter("category");
 
         List<Product> products = productService.searchProducts(query, category);
+
+        HttpSession session = req.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
+        if (user != null && user.getRole() == com.gokulmart.model.Role.BUYER) {
+            java.util.Set<Long> wishlistedIds = wishlistService.getWishlistedProductIdsByUser(user.getId());
+            for (Product p : products) {
+                if (wishlistedIds.contains(p.getId())) {
+                    p.setWishlisted(true);
+                }
+            }
+        }
 
         req.setAttribute("products", products);
         req.setAttribute("query", query != null ? query : "");
@@ -67,6 +79,12 @@ public class ProductServlet extends HttpServlet {
 
                 boolean canReview = false;
                 if (user != null) {
+                    if (user.getRole() == com.gokulmart.model.Role.BUYER) {
+                        java.util.Set<Long> wishlistedIds = wishlistService.getWishlistedProductIdsByUser(user.getId());
+                        if (wishlistedIds.contains(productId)) {
+                            product.setWishlisted(true);
+                        }
+                    }
                     canReview = reviewService.canUserReview(user.getId(), productId);
                 }
 

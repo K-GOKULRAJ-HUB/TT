@@ -23,6 +23,21 @@
         </c:if>
 
         <form action="${pageContext.request.contextPath}/login" method="POST">
+            <div class="form-group" style="text-align: center; margin-bottom: 1.5rem;">
+                <label class="form-label" style="display: block; margin-bottom: 0.5rem;">Account Type</label>
+                <div style="display: flex; justify-content: center; gap: 1.5rem;">
+                    <label>
+                        <input type="radio" name="loginType" value="BUYER" checked> Buyer
+                    </label>
+                    <label>
+                        <input type="radio" name="loginType" value="SELLER"> Seller
+                    </label>
+                    <label>
+                        <input type="radio" name="loginType" value="ADMIN"> Admin
+                    </label>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="form-label" for="email">Email Address</label>
                 <input type="email" id="email" name="email" class="form-control" value="${email}" placeholder="you@example.com" required>

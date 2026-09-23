@@ -14,6 +14,7 @@ public class Product {
     private String category;
     private String imageUrl;
     private Timestamp createdAt;
+    private boolean isWishlisted;
 
     public Product() {}
 
@@ -58,4 +59,7 @@ public class Product {
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    public boolean isWishlisted() { return isWishlisted; }
+    public void setWishlisted(boolean wishlisted) { isWishlisted = wishlisted; }
 }

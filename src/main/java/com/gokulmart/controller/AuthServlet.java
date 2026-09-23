@@ -55,10 +55,20 @@ public class AuthServlet extends HttpServlet {
     private void handleLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        String loginType = req.getParameter("loginType");
 
         Optional<User> userOpt = authService.authenticate(email, password);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
+            
+            // Check if selected login type matches user's actual role
+            if (loginType != null && !loginType.equals(user.getRole().name())) {
+                req.setAttribute("error", "Invalid account type selected. Please select " + user.getRole().name() + " login.");
+                req.setAttribute("email", email);
+                req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+                return;
+            }
+
             HttpSession session = req.getSession(true);
             session.setAttribute("user", user);
 
