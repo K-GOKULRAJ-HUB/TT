@@ -56,17 +56,27 @@ public class WishlistServlet extends HttpServlet {
             return;
         }
 
+        String msg = "";
         if ("/wishlist/add".equals(path)) {
             wishlistService.addProductToWishlist(user.getId(), productId);
+            msg = "Product added to Wishlist";
         } else if ("/wishlist/remove".equals(path)) {
             wishlistService.removeProductFromWishlist(user.getId(), productId);
+            msg = "Product removed from Wishlist";
         }
 
+        String encodedMsg = java.net.URLEncoder.encode(msg, java.nio.charset.StandardCharsets.UTF_8);
         String referer = req.getHeader("Referer");
         if (referer != null) {
+            if (referer.contains("?")) {
+                referer = referer.replaceAll("(&|\\?)success=[^&]*", "").replaceAll("(&|\\?)error=[^&]*", "");
+                referer += (referer.contains("?") ? "&" : "?") + "success=" + encodedMsg;
+            } else {
+                referer += "?success=" + encodedMsg;
+            }
             resp.sendRedirect(referer);
         } else {
-            resp.sendRedirect(req.getContextPath() + "/wishlist");
+            resp.sendRedirect(req.getContextPath() + "/wishlist?success=" + encodedMsg);
         }
     }
 }

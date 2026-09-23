@@ -18,6 +18,13 @@
             </p>
         </div>
     </div>
+    
+    <c:if test="${not empty param.success}">
+        <div class="alert alert-success" style="margin-bottom: 1rem;">${param.success}</div>
+    </c:if>
+    <c:if test="${not empty param.error}">
+        <div class="alert alert-danger" style="margin-bottom: 1rem;">${param.error}</div>
+    </c:if>
 
     <!-- Category Chips -->
     <div class="category-chips" style="justify-content: flex-start;">

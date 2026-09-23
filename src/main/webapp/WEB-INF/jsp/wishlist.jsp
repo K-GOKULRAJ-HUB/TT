@@ -8,12 +8,19 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <h1 style="font-size: 2rem; font-weight: 800;">My Wishlist</h1>
     </div>
+    
+    <c:if test="${not empty param.success}">
+        <div class="alert alert-success" style="margin-bottom: 1rem;">${param.success}</div>
+    </c:if>
+    <c:if test="${not empty param.error}">
+        <div class="alert alert-danger" style="margin-bottom: 1rem;">${param.error}</div>
+    </c:if>
 
     <c:if test="${empty wishlist}">
         <div class="empty-state">
-            <h3>Your wishlist is empty</h3>
-            <p>Looks like you haven't added any products to your wishlist yet.</p>
-            <a href="${pageContext.request.contextPath}/products" class="btn btn-primary" style="margin-top: 1rem;">Browse Products</a>
+            <h3>❤️ Your Wishlist is Empty</h3>
+            <p>Save products you love and come back to them later.</p>
+            <a href="${pageContext.request.contextPath}/products" class="btn btn-primary" style="margin-top: 1rem;">Continue Shopping</a>
         </div>
     </c:if>
 

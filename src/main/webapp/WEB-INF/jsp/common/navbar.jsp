@@ -12,8 +12,8 @@
                 <c:if test="${sessionScope.user.role eq 'BUYER'}">
                     <li><a href="${pageContext.request.contextPath}/home" class="nav-link">Home</a></li>
                     <li><a href="${pageContext.request.contextPath}/products" class="nav-link">Products</a></li>
-                    <li><a href="${pageContext.request.contextPath}/wishlist" class="nav-link">Wishlist</a></li>
-                    <li><a href="${pageContext.request.contextPath}/cart" class="nav-link">Cart</a></li>
+                    <li><a href="${pageContext.request.contextPath}/wishlist" class="nav-link">❤️ Wishlist <c:if test="${not empty wishlistCount}">(${wishlistCount})</c:if></a></li>
+                    <li><a href="${pageContext.request.contextPath}/cart" class="nav-link">🛒 Cart</a></li>
                     <li><a href="${pageContext.request.contextPath}/orders" class="nav-link">Orders</a></li>
                 </c:if>
                 <c:if test="${sessionScope.user.role eq 'SELLER'}">
